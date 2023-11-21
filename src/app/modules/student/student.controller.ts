@@ -31,7 +31,7 @@ data:result,
 }catch(error){
     res.status(500).json({
         success:false,
-        message : "something went wrong",
+        // message : error.message || "something went wrong",
         error:error,
  })
 }

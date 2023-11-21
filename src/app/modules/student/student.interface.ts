@@ -37,9 +37,13 @@ localGuardian:TLocalGuardian;
 profileImg:string;
 isActive : 'Active'|'blocked';
 }
+// for creating static
+ export interface StudentModel extends Model<TStudent> {
+   isUserExists(id:string):Promise<TStudent| null>
+  }
 
-
-export type StudentMethod = {
-    isUserExits(id:string):Promise<TStudent>
-}
-export type StudentModel = Model<TStudent, Record<string, never>, StudentMethod>;
+// for creating instance 
+// export type StudentMethod = {
+//     isUserExists(id:string):Promise<TStudent | null>
+// }
+// export type StudentModel = Model<TStudent, Record<string, never>, StudentMethod>;

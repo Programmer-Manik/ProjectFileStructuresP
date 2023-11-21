@@ -2,15 +2,24 @@
 import { Student,  } from "../student.model";
 import {TStudent} from "./student.interface";
 const createStudentIntoBD = async(studentData:TStudent) =>{
-		// const result = await Student.create(TStudent);
-		// return result;
+	// built in static method
+	if( await Student.isUserExists(studentData.id)){
+		throw new Error('user already exists!')
+	}	
+	const result = await Student.create(studentData);
+	return result;
+	
+
+	//create an instance  method
+	// const student = new Student(studentData); 
+	// if(await student.isUserExists(studentData.id)){
+	// 	throw new Error('user already exists!')
+	// }
 
 
-		
-		// statics and methods 
-		const student = new Student(studentData);
-		const result  = await  student.save();
-		return result;
+	//built in instance method 
+	// const result  = await  student.save();
+	// return result;
 }
                       
 const getAllStudentsFromDB = async() =>{
@@ -26,3 +35,4 @@ const SingleStudentsFromDB = async(id:string) =>{
 export const studentService = {
 	createStudentIntoBD,getAllStudentsFromDB,SingleStudentsFromDB
 }
+
