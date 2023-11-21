@@ -1,38 +1,43 @@
+// import validator from 'validator';
 import { Schema, model,   } from 'mongoose';
-import { Guardian, LocalGuardian, Student,  UserName } from './student/student.interface';
+import {   StudentMethod,     StudentModel,     TGuardian,   TLocalGuardian,   TStudent,   TUserName,  } from './student/student.interface';
 
-const userNameSchema = new Schema<UserName>(
+const userNameSchema = new Schema<TUserName>(
 	{
 		Name:{
 		type:String,
 		trim:true,
 		required:[true, 'name is required'],
 		maxlength:[20,'name can not be more than 20 characters'],	
-		validate:{
-			validator:function(value:string ){
-				const firstNameStr = value.charAt(0).toUpperCase() + value.slice(1);
-				return firstNameStr === value;
-			},
-			message:'{VALUE} is not in capitalize format'
-		},
+		// validate:{
+		// 	validator:function(value:string ){
+		// 		const firstNameStr = value.charAt(0).toUpperCase() + value.slice(1);
+		// 		return firstNameStr === value;
+		// 	},
+		// 	message:'{VALUE} is not in capitalize format'
+		// },
 		},
 		middleName:{
 		 type:String,
 		},
 		lastName:{
-		 type:String,
+			type:String,
 			required:true,
+			// validate:{
+			// 	validator:(value:string)=>validator.isAlpha(value),
+			// 	message:'{VALUE} is not valid'
+			// }
 		},
 	},)
 
-const localGuardianSchema = new Schema<LocalGuardian>(
+const localGuardianSchema = new Schema<TLocalGuardian>(
 {
 					firstName:{type:String ,required:true,},
 					occupation: {type:String ,required:true,},
 	                contactNO: {type:String ,required:true,},
 })
 
-const guardianSchema = new Schema<Guardian>({
+const guardianSchema = new Schema<TGuardian>({
 			fatherName:{type:String ,required:true,},
 			fatherOccupation:{type:String ,required:true,},
 			fatherContactNO:{type:String ,required:true,},
@@ -41,7 +46,7 @@ const guardianSchema = new Schema<Guardian>({
 			matherContactNO:{type:String ,required:true,},
 })
 
-const StudentSchema = new  Schema<Student>({
+const StudentSchema = new  Schema<TStudent ,StudentModel,StudentMethod>({
 id:{type:String,required:true,unique:true},
 name:{
 	type : userNameSchema,
@@ -56,7 +61,12 @@ gender:{
 	required:true
 },
 dateOfBirth:{type:String, required:true,},
-email:{type:String ,required:true,unique:true},
+email:{
+	// validate:{
+	// 	validator:(value:string) => validator.isEmail(value),	
+	// 	message:'{VALUE} is not a valid email'
+	// },
+	type:String ,required:true,unique:true},
 contactNumber:{type:String ,required:true,},
 emergencyContactNO:{type:String ,required:true,},
 bloodGroup:{
@@ -83,5 +93,5 @@ isActive : {
 })
 
 // create model 
-export const StudentModel = model<Student>('Student',StudentSchema)
+export const Student = model<TStudent>('Student',StudentSchema)
 // export default StudentModel;

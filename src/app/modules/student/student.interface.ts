@@ -1,28 +1,30 @@
+import { Model } from "mongoose";
+
 //import {Schema,model,connect} from 'mongoose'
-export type Guardian = {
+export type TGuardian = {
     fatherName:string;
     fatherOccupation:string;
-    fatherContactNO:string
+    fatherContactNO:string;
     matherName:string;
     matherOccupation:string;
-    matherContactNO:string
+    matherContactNO:string;
 }
 
-export type UserName = {
+export type TUserName = {
 Name: string;
 middleName:string;
 lastName:string;
 }
 
-export type LocalGuardian = {
+export type TLocalGuardian = {
 firstName:string;
 occupation: string;
 contactNO: string;
 }
-export type  Student = {
+export type  TStudent = {
 id: string;
-name:UserName
-gender : "Mail"|"Femail";
+name:TUserName;
+gender : "mail"|"femail";
 dateOfBirth:string;
 email: string;
 contactNumber:string;
@@ -30,8 +32,14 @@ emergencyContactNO:string;
 bloodGroup?:'A' | 'B' | 'AB' | 'O' | 'Rh+ ' | 'Rh-';
 presentAddress:string;
 permanentAddress:string;
-guardian:Guardian;
-localGuardian:LocalGuardian;
-profileImg?:string;
-isActive : 'Active'|'inActive'
+guardian:TGuardian;
+localGuardian:TLocalGuardian;
+profileImg:string;
+isActive : 'Active'|'blocked';
 }
+
+
+export type StudentMethod = {
+    isUserExits(id:string):Promise<TStudent>
+}
+export type StudentModel = Model<TStudent, Record<string, never>, StudentMethod>;
